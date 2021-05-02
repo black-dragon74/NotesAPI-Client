@@ -1,0 +1,33 @@
+@use "constants";
+
+.sideBar {
+  background-color: constants.$primary-darker;
+  height: 100vh;
+  width: 20%;
+  padding: 20px 10px;
+  overflow: scroll;
+
+  .sideBarHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    p {
+      color: constants.$text-primary;
+    }
+
+    .buttonContainer {
+      display: flex;
+      flex-direction: row;
+
+      div {
+        padding: 5px;
+        color: white;
+      }
+    }
+  }
+
+  hr {
+    margin: 5px 0;
+  }
+}
