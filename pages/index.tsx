@@ -1,10 +1,5 @@
 import {
-  AppBar,
-  Drawer,
-  Toolbar,
-  IconButton,
   Typography,
-  Hidden,
   List,
   ListItem,
   ListItemIcon,
@@ -12,10 +7,8 @@ import {
   Divider,
 } from "@material-ui/core"
 import { DrawerStyle } from "../styles"
-import MenuIcon from "@material-ui/icons/Menu"
 import MailIcon from "@material-ui/icons/Mail"
 import { makeStyles } from "@material-ui/core/styles"
-import { useState } from "react"
 import { Layout } from "../components"
 
 const useStyles = makeStyles((theme) => DrawerStyle(theme))
