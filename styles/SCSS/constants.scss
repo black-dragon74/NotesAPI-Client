@@ -1,7 +1,11 @@
-$primary-lighter: #212121;
-$primary-darker: #1a1a1a;
-$text-primary: #848484;
+/**
+* Created by Nick aka black-dragon74 for MUJ project
+*/
 
-$drawerWidth: 240;
-$muiThemeSpacing: 8; // theme.spacing(1)
+/** The functions that are used throughout this project for styling shiz **/
+@function themeSpacing($offset) {
+  @return 8 * $offset * 1px;
+}
+
+/** Global variables are defined here **/
 $muiSmAndUpBreakpoint: 600px; //theme.breakpoints.up("sm")

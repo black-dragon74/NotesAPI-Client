@@ -1,0 +1,14 @@
+@use "constants" as c;
+
+.root {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #282c34;
+}
+
+.card {
+  padding: c.themeSpacing(2);
+}
