@@ -35,6 +35,22 @@ body,
   display: flex;
 }
 
+h1,
+h2,
+h3,
+h4,
+p {
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+h4,
+p.bold {
+  font-weight: 700;
+}
+
 h1 {
   font-size: 4rem;
 }
@@ -79,6 +95,22 @@ p.small {
 ::-webkit-scrollbar-thumb {
   background-color: var(--color-primary-700);
   border-radius: 5px;
+}
+
+html {
+  position: fixed;
+}
+
+#__next {
+  overflow-y: auto;
+}
+
+.h-screen {
+  height: calc(100vh - var(--screen-height-reduction));
+}
+
+button:focus {
+  outline: none;
 }
 
 // Inject tailwind

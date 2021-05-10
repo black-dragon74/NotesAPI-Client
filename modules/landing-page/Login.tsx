@@ -69,11 +69,12 @@ export const LoginPage = () => {
         style={{ gridTemplateRows: "1fr auto 1fr" }}
       >
         <HeaderController title="Login" />
+        <div />
         <div className="flex m-auto flex-col p-6 gap-5 bg-primary-800 sm:rounded-8 z-10 sm:w-400 w-full">
           <div className="flex gap-2 flex-col">
             <span className="text-3xl text-primary-100 font-bold">Welcome</span>
             <div className="text-primary-100 flex-wrap">
-              By logging in you agree to our
+              By logging in you agree to our&nbsp;
               <a href="#" className="hover:underline text-accent">
                 terms and conditions.
               </a>
@@ -87,7 +88,9 @@ export const LoginPage = () => {
           </div>
         </div>
         <div className="flex flex-row absolute bottom-0 w-full justify-between items-center px-5 py-5 mt-auto">
-          <h1 className="hidden sm:flex text-primary text-lg">SINKSP</h1>
+          <h1 className="hidden sm:flex text-primary-300">
+            &copy; Nick &amp; SidSun
+          </h1>
           <div className="flex flex-row gap-6 text-primary-300">
             <a href="#" target="_blank" className="hover:text-primary-200">
               Privacy Policy
