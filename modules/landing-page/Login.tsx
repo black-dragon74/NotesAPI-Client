@@ -4,6 +4,8 @@ import { useTokenStore } from "../auth/useTokenStore"
 import HeaderController from "../display/HeaderController"
 import Button from "../../ui/Button"
 import GitHubSVG from "../../icons/GitHubSVG"
+import { nextPathKey } from "../../lib/constants"
+import useReadAndStoreQueryTokens from "../auth/useReadAndStoreTokens"
 
 type LoginButtonProps = {
   children: [ReactNode, ReactNode]
@@ -21,7 +23,7 @@ const LoginButton: FC<LoginButtonProps> = ({
   const clickHandler = useCallback(() => {
     if (typeof query.next === "string" && query.next) {
       try {
-        localStorage.setItem("nextPath", query.next)
+        localStorage.setItem(nextPathKey, query.next)
       } catch {}
     }
 
@@ -48,6 +50,7 @@ const LoginButton: FC<LoginButtonProps> = ({
 }
 
 export const LoginPage = () => {
+  useReadAndStoreQueryTokens()
   const hasTokens = useTokenStore(
     (state) => state.accessToken && state.refreshToken
   )
@@ -70,7 +73,7 @@ export const LoginPage = () => {
           <div className="flex gap-2 flex-col">
             <span className="text-3xl text-primary-100 font-bold">Welcome</span>
             <div className="text-primary-100 flex-wrap">
-              By logging in you agree to our{" "}
+              By logging in you agree to our
               <a href="#" className="hover:underline text-accent">
                 terms and conditions.
               </a>
