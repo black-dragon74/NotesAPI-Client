@@ -7,9 +7,14 @@ export const LoginStyle = (theme: Theme) => ({
     justifyContent: "center",
     alignItems: "center",
     height: "100vh",
+    backgroundColor: "#282c34",
   },
   card: {
-      
+    padding: theme.spacing(3),
+    height: "400px",
+    width: "400px",
+    alignItems: "center",
+    justifyContent: "center",
   },
   paper: {
     padding: theme.spacing(2),

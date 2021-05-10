@@ -1,10 +1,9 @@
 import { useCallback, useState, FC, useEffect } from "react"
-import { isServer } from "../../lib/isServer"
 import "quill/dist/quill.snow.css"
 import Quill from "quill"
 
 const Editor: FC = () => {
-  const editorRef = useCallback(callee => {
+  const editorRef = useCallback((callee) => {
     if (callee == undefined) return
     callee.innerHTML = ""
     const editorContainer = document.createElement("div")
@@ -25,7 +24,11 @@ const Editor: FC = () => {
 
   return (
     // Quill mounts here!
-    <div id="editor-root" ref={editorRef} style={{ width: (width - 300) + "px", height: "80vh" }} />
+    <div
+      id="editor-root"
+      ref={editorRef}
+      style={{ width: width - 300 + "px", height: "80vh" }}
+    />
   )
 }
 
