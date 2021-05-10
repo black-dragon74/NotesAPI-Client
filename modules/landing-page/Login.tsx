@@ -1,7 +1,7 @@
 import React, { useEffect, FC, ReactNode, useCallback } from "react"
 import { useRouter } from "next/router"
 import { useTokenStore } from "../auth/useTokenStore"
-import HeaderController from "../auth/display/HeaderController"
+import HeaderController from "../display/HeaderController"
 import Button from "../../ui/Button"
 import GitHubSVG from "../../icons/GitHubSVG"
 
