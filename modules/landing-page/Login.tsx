@@ -101,7 +101,7 @@ export const LoginPage = () => {
             </a>
 
             <a href="#" target="_blank" className="hover:text-primary-200">
-              GitHub
+              <GitHubSVG width="20" height="20" />
             </a>
           </div>
         </div>
