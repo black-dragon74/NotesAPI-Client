@@ -1,11 +1,7 @@
 module.exports = {
   darkMode: false,
   purge: {
-    content: [
-      "./modules/**/*.{ts, tsx}",
-      "./components/**/*.{ts, tsx}",
-      "./public/index.html",
-    ],
+    content: ["./modules/**/*.tsx", "./ui/*.tsx", "./public/index.html"],
   },
   theme: {
     fontFamily: {
