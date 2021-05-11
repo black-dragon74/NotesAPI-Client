@@ -52,7 +52,7 @@ const LoginButton: FC<LoginButtonProps> = ({
 export const LoginPage = () => {
   useReadAndStoreQueryTokens()
   const hasTokens = useTokenStore(
-    (state) => state.accessToken && state.refreshToken
+    state => state.accessToken && state.refreshToken
   )
   const { push } = useRouter()
 

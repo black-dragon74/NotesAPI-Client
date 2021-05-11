@@ -22,7 +22,7 @@ const HeaderController: FC<HeaderControllerProps> = ({
       <meta
         name="keywords"
         content={`SINKSP, Instant Note Keeping, PasteBin, HasteBin${additionalKeywords?.map(
-          (k) => `, ${k}`
+          k => `, ${k}`
         )}`}
       />
       <meta name="theme-color" content="#EFE7DD" />

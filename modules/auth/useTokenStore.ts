@@ -21,7 +21,7 @@ const getDefaultValues = (): TokenType => {
 }
 
 export const useTokenStore = create(
-  combine(getDefaultValues(), (set) => ({
+  combine(getDefaultValues(), set => ({
     setTokens: (x: TokenType) => {
       try {
         localStorage.setItem(accessTokenKey, x.accessToken)

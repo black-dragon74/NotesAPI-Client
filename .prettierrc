@@ -2,5 +2,5 @@
   "trailingComma": "es5",
   "semi": false,
   "singleQuote": false,
-  "arrowParens": "always"
+  "arrowParens": "avoid"
 }

@@ -11,6 +11,3 @@ export default function ErrorPage() {
 
   return <div>Hemlo, what doing. Taking home.</div>
 }
-
-
-
