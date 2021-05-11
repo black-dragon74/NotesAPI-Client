@@ -1,15 +1,12 @@
-import { WaitForAuth } from "../modules/auth/WaitForAuth"
-import dynamic from "next/dynamic"
-import Toast from "../ui/Toast"
-import ToastController from "../modules/toast/ToastController"
-import { useEffect } from "react"
-import { showErrorToast, showSuccessToast } from "../lib/showToast"
+import { MainGrid } from "../ui/MainGrid"
 
 const Dash = () => {
-  useEffect(() => {
-    showErrorToast("Hello dorling!")
-    showSuccessToast("Henlo dorling!")
-  }, [])
-  return <ToastController />
+  return (
+    <MainGrid>
+      <div className="bg-secondary w-full"></div>
+      <div className="bg-primary w-full"></div>
+      <div className="bg-accent w-full"></div>
+    </MainGrid>
+  )
 }
 export default Dash

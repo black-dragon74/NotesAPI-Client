@@ -1,5 +1,3 @@
-import { ToastTypes, ToastDurations } from "../ui/Toast"
-import { FC } from "react"
 import useToastStore from "../modules/toast/useToastStore"
 
 const showErrorToast = (m: string) => {

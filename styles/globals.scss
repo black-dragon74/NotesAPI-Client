@@ -110,7 +110,7 @@ html {
 }
 
 button:focus {
-  outline: none;
+  outline: none !important;
 }
 
 // Inject tailwind

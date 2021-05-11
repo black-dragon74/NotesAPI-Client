@@ -6,6 +6,7 @@ import Button from "../../ui/Button"
 import GitHubSVG from "../../icons/GitHubSVG"
 import { nextPathKey } from "../../lib/constants"
 import useReadAndStoreQueryTokens from "../auth/useReadAndStoreTokens"
+import ArcheLogo from "../../icons/ArcheLogo"
 
 type LoginButtonProps = {
   children: [ReactNode, ReactNode]
@@ -69,7 +70,10 @@ export const LoginPage = () => {
         style={{ gridTemplateRows: "1fr auto 1fr" }}
       >
         <HeaderController title="Login" />
-        <div />
+        <div className="flex sm:hidden items-center justify-center">
+          <ArcheLogo />
+        </div>
+        <div className="hidden sm:flex" />
         <div className="flex m-auto flex-col p-6 gap-5 bg-primary-800 sm:rounded-8 z-10 sm:w-400 w-full">
           <div className="flex gap-2 flex-col">
             <span className="text-3xl text-primary-100 font-bold">Welcome</span>
@@ -88,8 +92,8 @@ export const LoginPage = () => {
           </div>
         </div>
         <div className="flex flex-row absolute bottom-0 w-full justify-between items-center px-5 py-5 mt-auto">
-          <h1 className="hidden sm:flex text-primary-300">
-            &copy; Nick &amp; SidSun
+          <h1 className="hidden sm:flex">
+            <ArcheLogo />
           </h1>
           <div className="flex flex-row gap-6 text-primary-300">
             <a href="#" target="_blank" className="hover:text-primary-200">
