@@ -16,7 +16,7 @@ const HeaderController: FC<HeaderControllerProps> = ({
 }) => {
   return (
     <Head>
-      {title ? <title>{title} | SINKSP</title> : <title>SINKSP</title>}
+      {title ? <title>{title} | ArchéNotes</title> : <title>ArchéNotes</title>}
       <meta name="description" content={description} />
       {owner ? <meta name="author" content={owner} /> : ""}
       <meta

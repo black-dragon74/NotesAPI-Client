@@ -1,3 +1,9 @@
+// Inject tailwind
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// Then override the properties defined by TailWind
 :root {
   font-size: 14px;
 
@@ -18,12 +24,6 @@
   --color-accent-disabled: #f5bfbf;
   --screen-height-reduction: 0px;
   --color-primary-100-translucent: rgba(222, 227, 234, 0.15);
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
 }
 
 html,
@@ -110,10 +110,5 @@ html {
 }
 
 button:focus {
-  outline: none !important;
+  outline: none;
 }
-
-// Inject tailwind
-@tailwind base;
-@tailwind components;
-@tailwind utilities;

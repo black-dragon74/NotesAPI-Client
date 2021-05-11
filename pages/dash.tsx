@@ -1,12 +1,15 @@
+import HeaderController from "../modules/display/HeaderController"
+import DesktopLayout from "../modules/layouts/DesktopLayout"
 import { MainGrid } from "../ui/MainGrid"
 
 const Dash = () => {
   return (
-    <MainGrid>
-      <div className="bg-secondary w-full"></div>
-      <div className="bg-primary w-full"></div>
-      <div className="bg-accent w-full"></div>
-    </MainGrid>
+    <DesktopLayout>
+      <HeaderController title="Dashboard"></HeaderController>
+      <div className="flex justify-center">
+        <h1 className="text-button">Henlo Gays!</h1>
+      </div>
+    </DesktopLayout>
   )
 }
 export default Dash

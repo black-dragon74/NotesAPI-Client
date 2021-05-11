@@ -276,7 +276,7 @@
     "template-curly-spacing": "error",
     "template-tag-spacing": "error",
     "unicode-bom": "error",
-    "unused-imports/no-unused-imports": "warn",
+    "unused-imports/no-unused-imports": "error",
     "valid-jsdoc": "error",
     "vars-on-top": "error",
     "wrap-iife": "error",
