@@ -1,0 +1,5 @@
+#!/bin/sh
+echo "Running post-commit hook"
+git update-index -g
+echo "Post-commit hook completed"
+exit 0
