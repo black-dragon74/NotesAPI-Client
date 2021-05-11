@@ -1,0 +1,13 @@
+#!/bin/bash
+
+cd "$(dirname "$0")"
+
+files=$(ls | grep -v '^sync-hooks$')
+
+for f in $files;do
+    rm -rf ../.git/hooks/$f 2>/dev/null
+    cp $f ../.git/hooks/$f
+    echo "Synced: $f"
+done
+
+exit 0
