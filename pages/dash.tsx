@@ -1,6 +1,5 @@
 import HeaderController from "../modules/display/HeaderController"
 import DesktopLayout from "../modules/layouts/DesktopLayout"
-import { MainGrid } from "../ui/MainGrid"
 
 const Dash = () => {
   return (
