@@ -23,7 +23,7 @@ const Toast: FC<ToastProps> = ({
   onCloseRef.current = onClose
 
   useEffect(() => {
-    if (duration == "sticky") return
+    if (duration === "sticky") return
 
     const timer = setTimeout(() => onCloseRef.current?.(), 5000)
 

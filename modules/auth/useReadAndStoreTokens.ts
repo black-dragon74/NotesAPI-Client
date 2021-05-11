@@ -7,7 +7,7 @@ const useReadAndStoreQueryTokens = () => {
   const { query: params, push } = useRouter()
   useEffect(() => {
     if (typeof params.error === "string" && params.error) {
-      //TODO: Show a prompt/toast to the user about this error
+      // TODO: Show a prompt/toast to the user about this error
       console.error(params.error)
     }
 

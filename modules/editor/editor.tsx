@@ -4,10 +4,11 @@ import Quill from "quill"
 
 const Editor: FC = () => {
   const editorRef = useCallback(callee => {
-    if (callee == undefined) return
+    if (callee === undefined) return
     callee.innerHTML = ""
     const editorContainer = document.createElement("div")
     callee.append(editorContainer)
+    /* eslint-disable no-new */
     new Quill(editorContainer, {
       theme: "snow",
     })
