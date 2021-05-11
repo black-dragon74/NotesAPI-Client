@@ -1,7 +1,11 @@
 #!/bin/sh
 echo "Running pre-commit hook"
 FILES=$(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g')
-[ -z "$FILES" ] && exit 0
+if [ -z "$FILES" ];
+then
+    echo "No files to apply changes to."
+    exit 1
+fi
 
 # Prettify all selected files
 echo "$FILES" | prettier --ignore-unknown --write
