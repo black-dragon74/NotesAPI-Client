@@ -1,9 +1,14 @@
 import "../styles/globals.scss"
 import { AppProps } from "next/app"
-import { Context as ResponsiveContext } from "react-responsive"
 import Head from "next/head"
+import { isServer } from "../lib/isServer"
 
 function MyApp({ Component, pageProps }: AppProps) {
+  // Perform SSR only when meant to, i.e.  if `getInitialProps` is present
+  if (isServer && !Component.getInitialProps) {
+    return null
+  }
+
   // TODO: Add touch-icons meta and manifests
   return (
     <>
@@ -13,9 +18,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           content="width=device-width, initial-scale=1, user-scalable=no, user-scalable=0"
         />
       </Head>
-      <ResponsiveContext.Provider value={{ width: 1336 }}>
-        <Component {...pageProps} />
-      </ResponsiveContext.Provider>
+      <Component {...pageProps} />
     </>
   )
 }

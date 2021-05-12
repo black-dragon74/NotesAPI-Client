@@ -1,6 +1,7 @@
 import { FC, ReactNode } from "react"
 import useScreenType, { ScreenType } from "../../hooks/useScreenType"
 import { FixedGridPanel, GridPanel } from "../../ui/GridPanel"
+import LeftHeader from "../../ui/headers/LeftHeader"
 
 const HeaderWrapper: FC = ({ children }) => {
   return <div className="flex mb-7 h-6 items-center">{children}</div>
@@ -9,7 +10,9 @@ const HeaderWrapper: FC = ({ children }) => {
 const LeftPanel: FC = ({ children }) => {
   return (
     <FixedGridPanel>
-      <HeaderWrapper>TODO Left Header</HeaderWrapper>
+      <HeaderWrapper>
+        <LeftHeader />
+      </HeaderWrapper>
       {children}
     </FixedGridPanel>
   )
