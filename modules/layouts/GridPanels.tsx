@@ -2,6 +2,8 @@ import { FC, ReactNode } from "react"
 import useScreenType, { ScreenType } from "../../hooks/useScreenType"
 import { FixedGridPanel, GridPanel } from "../../ui/GridPanel"
 import LeftHeader from "../../ui/headers/LeftHeader"
+import MiddleHeader from "../../ui/headers/MiddleHeader"
+import RightHeader from "../../ui/headers/RightHeader"
 
 const HeaderWrapper: FC = ({ children }) => {
   return <div className="flex mb-7 h-6 items-center">{children}</div>
@@ -21,7 +23,9 @@ const LeftPanel: FC = ({ children }) => {
 const RightPanel: FC = ({ children }) => {
   return (
     <FixedGridPanel>
-      <HeaderWrapper>TODO Right Header</HeaderWrapper>
+      <HeaderWrapper>
+        <RightHeader />
+      </HeaderWrapper>
       {children}
     </FixedGridPanel>
   )
@@ -44,7 +48,9 @@ const MiddlePanel: FC<{ stickyChildren?: ReactNode }> = ({
         style={{ top: 0 }}
       >
         {screenType !== ScreenType.FullScreen && (
-          <HeaderWrapper>TODO Middle Header</HeaderWrapper>
+          <HeaderWrapper>
+            <MiddleHeader />
+          </HeaderWrapper>
         )}
         {stickyChildren}
       </div>

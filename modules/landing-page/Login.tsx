@@ -9,12 +9,14 @@ import useReadAndStoreQueryTokens from "../auth/useReadAndStoreTokens"
 import ArcheLogo from "../../icons/ArcheLogo"
 
 type LoginButtonProps = {
+  loading?: boolean
   children: [ReactNode, ReactNode]
   oAuthURL?: string
   onClick?: () => void
 }
 
 const LoginButton: FC<LoginButtonProps> = ({
+  loading,
   children,
   onClick,
   oAuthURL,
@@ -32,7 +34,8 @@ const LoginButton: FC<LoginButtonProps> = ({
   }, [query, oAuthURL])
   return (
     <Button
-      className="justify-center py-3 mt-2 text-base"
+      loading={loading}
+      className="py-3 mt-2 text-base"
       size="big"
       color="secondary"
       onClick={oAuthURL ? clickHandler : onClick}
@@ -85,7 +88,7 @@ export const LoginPage = () => {
             </div>
           </div>
           <div className="flex flex-col gap-4">
-            <LoginButton onClick={() => console.log("Hello")}>
+            <LoginButton onClick={() => console.log("Hello")} loading={false}>
               <GitHubSVG width="20" height="20" />
               Login with GitHub
             </LoginButton>

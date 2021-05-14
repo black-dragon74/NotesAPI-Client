@@ -60,8 +60,8 @@ const MainLayout: FC<MainLayoutProps> = ({
       gridContents = (
         <>
           {children}
-          <div>Floating shiz</div>
-          <div>Overlay shiz</div>
+          {/* <div>Floating shiz</div> */}
+          {/* <div>Overlay shiz</div> */}
         </>
       )
       break
