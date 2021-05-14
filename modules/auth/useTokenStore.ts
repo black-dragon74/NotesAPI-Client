@@ -29,5 +29,13 @@ export const useTokenStore = create(
       } catch {}
       set(x)
     },
+    clearTokens: () => {
+      const tempToken: TokenType = { accessToken: "", refreshToken: "" }
+      try {
+        localStorage.setItem(accessTokenKey, tempToken.accessToken)
+        localStorage.setItem(refreshTokenKey, tempToken.refreshToken)
+      } catch {}
+      set(tempToken)
+    },
   }))
 )

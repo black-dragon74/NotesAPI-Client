@@ -9,9 +9,9 @@ import HeaderController from "../modules/display/HeaderController"
 // Users can optionally click on a button to logout in case the component did not logout successfully
 const Logout = () => {
   const { replace } = useRouter()
-  const [hasTokens, setTokens] = useTokenStore(state => [
+  const [hasTokens, clearTokens] = useTokenStore(state => [
     !!(state.accessToken && state.refreshToken),
-    state.setTokens,
+    state.clearTokens,
   ])
 
   useEffect(() => {
@@ -24,17 +24,7 @@ const Logout = () => {
     <>
       <HeaderController title="Logout" />
       <div className="flex ml-auto justify-center items-center h-screen w-full">
-        <Button
-          onClick={() =>
-            setTokens({
-              accessToken: "",
-              refreshToken: "",
-            })
-          }
-          color="primary"
-          size="big"
-          transition
-        >
+        <Button onClick={clearTokens} color="primary" size="big" transition>
           Click here to logout manually
         </Button>
       </div>
