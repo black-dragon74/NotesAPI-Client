@@ -1,5 +1,4 @@
-import { ScreenType } from "../../hooks/useScreenType"
-import useScreenType from "../../hooks/useScreenType"
+import useScreenType, { ScreenType } from "../../hooks/useScreenType"
 import LeftHeader from "./LeftHeader"
 import RightHeader from "./RightHeader"
 
