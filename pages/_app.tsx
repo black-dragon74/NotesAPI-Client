@@ -6,6 +6,9 @@ import { useEffect, useState } from "react"
 import { AuthContextProvider } from "../modules/auth/AuthProvider"
 import { QueryClient, QueryClientProvider } from "react-query"
 import ToastController from "../modules/toast/ToastController"
+import ReactModal from "react-modal"
+
+ReactModal.setAppElement("#__next")
 
 function MyApp({ Component, pageProps }: AppProps) {
   // Perform SSR only when meant to, i.e.  if `getInitialProps` is present

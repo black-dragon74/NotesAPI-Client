@@ -1,13 +1,22 @@
 import HeaderController from "../modules/display/HeaderController"
 import DesktopLayout from "../modules/layouts/DesktopLayout"
 import { MiddlePanel } from "../modules/layouts/GridPanels"
+import DashHeader from "../ui/DashHeader"
 import NoteCard from "../ui/NoteCard"
 
 const Dash = () => {
   return (
     <DesktopLayout>
       <HeaderController title="Dashboard"></HeaderController>
-      <MiddlePanel>
+      <MiddlePanel
+        stickyChildren={
+          <DashHeader
+            title="Your Notes"
+            ctaTitle="New Note"
+            onCtaClicked={() => console.log("Ah yes, climck")}
+          />
+        }
+      >
         <div className="flex flex-col gap-3">
           {[1, 2, 3, 4, 5].map(n => (
             <NoteCard
