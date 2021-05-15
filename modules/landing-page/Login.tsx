@@ -1,64 +1,26 @@
-import React, { useEffect, FC, ReactNode, useCallback } from "react"
+import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { useTokenStore } from "../auth/useTokenStore"
 import HeaderController from "../display/HeaderController"
 import Button from "../../ui/Button"
 import GitHubSVG from "../../icons/GitHubSVG"
-import { nextPathKey } from "../../lib/constants"
-import useReadAndStoreQueryTokens from "../auth/useReadAndStoreTokens"
 import ArcheLogo from "../../icons/ArcheLogo"
+import InputField from "../../components/form-fields/InputField"
+import { Formik } from "formik"
+import { showErrorToast } from "../../lib/showToast"
+import handleAuth from "../../lib/passport"
 
-type LoginButtonProps = {
-  loading?: boolean
-  children: [ReactNode, ReactNode]
-  oAuthURL?: string
-  onClick?: () => void
-}
-
-const LoginButton: FC<LoginButtonProps> = ({
-  loading,
-  children,
-  onClick,
-  oAuthURL,
-  ...props
-}) => {
-  const { query } = useRouter()
-  const clickHandler = useCallback(() => {
-    if (typeof query.next === "string" && query.next) {
-      try {
-        localStorage.setItem(nextPathKey, query.next)
-      } catch {}
-    }
-
-    window.location.href = oAuthURL as string
-  }, [query, oAuthURL])
-  return (
-    <Button
-      loading={loading}
-      className="py-3 mt-2 text-base"
-      size="big"
-      color="secondary"
-      onClick={oAuthURL ? clickHandler : onClick}
-      {...props}
-    >
-      <div
-        className="grid gap-4"
-        style={{ gridTemplateColumns: "1fr auto 1fr" }}
-      >
-        {children[0]}
-        {children[1]}
-        <div />
-      </div>
-    </Button>
-  )
+type LoginFormFields = {
+  email: string
+  password: string
 }
 
 export const LoginPage = () => {
-  useReadAndStoreQueryTokens()
   const hasTokens = useTokenStore(
     state => state.accessToken && state.refreshToken
   )
-  const { push } = useRouter()
+  const { push, replace } = useRouter()
+  const [isLogin, setIsLogin] = useState(true)
 
   useEffect(() => {
     if (hasTokens) {
@@ -72,7 +34,7 @@ export const LoginPage = () => {
         className={`grid w-full h-full`}
         style={{ gridTemplateRows: "1fr auto 1fr" }}
       >
-        <HeaderController title="Login" />
+        <HeaderController title={isLogin ? "Login" : "Signup"} />
         <div className="flex sm:hidden items-center justify-center">
           <ArcheLogo />
         </div>
@@ -81,17 +43,85 @@ export const LoginPage = () => {
           <div className="flex gap-2 flex-col">
             <span className="text-3xl text-primary-100 font-bold">Welcome</span>
             <div className="text-primary-100 flex-wrap">
-              By logging in you agree to our&nbsp;
+              By {isLogin ? "logging in" : "signing up"} you agree to our&nbsp;
               <a href="#" className="hover:underline text-accent">
                 terms and conditions.
               </a>
             </div>
           </div>
-          <div className="flex flex-col gap-4">
-            <LoginButton onClick={() => console.log("Hello")} loading={false}>
-              <GitHubSVG width="20" height="20" />
-              Login with GitHub
-            </LoginButton>
+          <Formik<LoginFormFields>
+            validateOnBlur={false}
+            validateOnChange={false}
+            initialValues={{ email: "", password: "" }}
+            validate={({ email, password }) => {
+              const errors: Record<string, string> = {}
+
+              if (!email) {
+                errors.email = "Required"
+              } else if (
+                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)
+              ) {
+                errors.email = "Invalid email"
+              }
+
+              if (!password) {
+                errors.password = "Required"
+              }
+
+              return errors
+            }}
+            onSubmit={async ({ email, password }, { setSubmitting }) => {
+              const resp = await handleAuth(email, password, isLogin)
+
+              if (!resp.success && resp.errorMsg) {
+                showErrorToast(resp.errorMsg)
+              }
+
+              if (resp.success && resp.token) {
+                useTokenStore.getState().setTokens(resp.token)
+                replace("/dash")
+              }
+
+              setSubmitting(false)
+            }}
+          >
+            {({ handleSubmit, isSubmitting }) => (
+              <form
+                className="flex flex-col gap-4 w-full"
+                onSubmit={handleSubmit}
+                autoComplete="off"
+              >
+                <InputField
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email"
+                />
+                <InputField
+                  name="password"
+                  type="password"
+                  placeholder="Enter your password"
+                />
+                <Button
+                  loading={isSubmitting}
+                  type="submit"
+                  color={isLogin ? "primary" : "accent-secondary"}
+                >
+                  {isLogin ? "Login" : "Signup"}
+                </Button>
+              </form>
+            )}
+          </Formik>
+          <div className="flex w-full items-center justify-center">
+            <a
+              href="#"
+              className="text-accent hover:underline"
+              onClick={e => {
+                e.preventDefault()
+                setIsLogin(p => !p)
+              }}
+            >
+              {isLogin ? "Create an account?" : "Already have an account?"}
+            </a>
           </div>
         </div>
         <div className="flex flex-row absolute bottom-0 w-full justify-between items-center px-5 py-5 mt-auto">
