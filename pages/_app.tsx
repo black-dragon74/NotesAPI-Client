@@ -3,11 +3,17 @@ import { AppProps } from "next/app"
 import Head from "next/head"
 import { isServer } from "../lib/isServer"
 import { useEffect, useState } from "react"
+import { AuthContextProvider } from "../modules/auth/AuthProvider"
+import { QueryClient, QueryClientProvider } from "react-query"
+import ToastController from "../modules/toast/ToastController"
 
 function MyApp({ Component, pageProps }: AppProps) {
   // Perform SSR only when meant to, i.e.  if `getInitialProps` is present
   const skipSSR = isServer && !Component.getInitialProps
   const [isMounted, setIsMounted] = useState(false)
+
+  // TODO: Use a custom query client that can handle errors automatically
+  const queryClient = new QueryClient()
 
   useEffect(() => {
     setIsMounted(true)
@@ -21,15 +27,18 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   // TODO: Add touch-icons meta and manifests
   return (
-    <>
-      <Head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, user-scalable=no, user-scalable=0"
-        />
-      </Head>
-      <Component {...pageProps} />
-    </>
+    <AuthContextProvider>
+      <QueryClientProvider client={queryClient}>
+        <Head>
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, user-scalable=no, user-scalable=0"
+          />
+        </Head>
+        <Component {...pageProps} />
+        <ToastController />
+      </QueryClientProvider>
+    </AuthContextProvider>
   )
 }
 

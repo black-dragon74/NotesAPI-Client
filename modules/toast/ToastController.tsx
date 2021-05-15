@@ -5,7 +5,7 @@ import useToastStore from "./useToastStore"
 const ToastController: FC = () => {
   const { toasts, hide } = useToastStore()
   return (
-    <div className="flex w-full fixed bottom-0 justify-center">
+    <div className="flex w-full fixed bottom-0 justify-center z-50">
       <div className="flex flex-col w-full">
         {toasts.map(toast => (
           <div key={toast.id}>
