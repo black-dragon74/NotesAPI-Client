@@ -26,6 +26,10 @@ const HeaderController: FC<HeaderControllerProps> = ({
         )}`}
       />
       <meta name="theme-color" content="#EFE7DD" />
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/fontawesome.min.css"
+      />
     </Head>
   )
 }

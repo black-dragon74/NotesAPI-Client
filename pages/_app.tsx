@@ -1,4 +1,5 @@
 import "../styles/globals.scss"
+import "font-awesome/css/font-awesome.min.css"
 import { AppProps } from "next/app"
 import Head from "next/head"
 import { isServer } from "../lib/isServer"

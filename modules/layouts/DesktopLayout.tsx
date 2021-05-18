@@ -1,5 +1,6 @@
 import { FC, ReactNode } from "react"
 import { WaitForAuth } from "../auth/WaitForAuth"
+import FolderView from "../dashboard/FolderView"
 import MainLayout from "./MainLayout"
 
 type DesktopLayoutProps = {
@@ -12,7 +13,7 @@ const DesktopLayout: FC<DesktopLayoutProps> = ({
   return (
     <WaitForAuth>
       <MainLayout
-        leftPanel={<div>Henlo Left</div>}
+        leftPanel={<FolderView />}
         rightPanel={<div>Henlo RightPanel</div>}
         mobileHeader={mobileHeader}
       >
