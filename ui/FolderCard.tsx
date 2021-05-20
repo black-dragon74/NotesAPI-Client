@@ -1,4 +1,5 @@
 import { FC } from "react"
+import DeleteIcon from "../icons/DeleteIcon"
 import Button from "./Button"
 
 type FolderCardProps = {
@@ -12,7 +13,7 @@ const FolderCard: FC<FolderCardProps> = ({ title, children: _, onDelete }) => {
       <span className="text-primary-100 font-semibold">{title}</span>
       <div className="flex">
         <Button size="tiny" className="h-5 w-5 m-1" onClick={onDelete}>
-          <i className="fa fa-trash" />
+          <DeleteIcon />
         </Button>
       </div>
     </div>
