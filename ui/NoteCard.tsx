@@ -30,14 +30,14 @@ const NoteCard: FC<NoteCardProps> = ({
           <span>{excerpt}</span>
         </div>
       </div>
-      <div className="flex mt-2 w-full font-bold text-primary-600 justify-between">
+      {/* <div className="flex mt-2 w-full font-bold text-primary-600 justify-between">
         <div>
           <span className="inline">Created on: xx-xx-xx</span>
         </div>
         <div>
           <span className="inline">Created by: Nick</span>
         </div>
-      </div>
+      </div> */}
     </button>
   )
 }

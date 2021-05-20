@@ -7,6 +7,7 @@ import FolderCard from "../../ui/FolderCard"
 import Spinner from "../../ui/Spinner"
 import CreateNewFolderModal from "./CreateNewFolderModal"
 import useFolderStore from "./useFolderStore"
+import useNotesStore from "./useNotesStore"
 
 const FolderView = () => {
   const selectedFolder = useRef(-1)
@@ -14,6 +15,7 @@ const FolderView = () => {
   const [showAddModel, setShowAddModal] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
   const { folders, fetched, remove, sync } = useFolderStore()
+  const { select, selectedFolder: sf } = useNotesStore()
 
   useEffect(() => {
     sync()
@@ -32,12 +34,14 @@ const FolderView = () => {
           return (
             <FolderCard
               key={folder.ID}
+              selected={folder.ID === sf}
               title={folder.Name}
               onDelete={() => {
                 selectedFolder.current = folder.ID
                 selectedFolderName.current = folder.Name
                 setShowConfirm(true)
               }}
+              onClick={() => useNotesStore.getState().select(folder.ID)}
             />
           )
         })
