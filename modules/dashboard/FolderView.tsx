@@ -33,9 +33,6 @@ const FolderView = () => {
             <FolderCard
               key={folder.ID}
               title={folder.Name}
-              onUpdate={() => {
-                console.log("Ah yes, umpdate")
-              }}
               onDelete={() => {
                 selectedFolder.current = folder.ID
                 selectedFolderName.current = folder.Name
