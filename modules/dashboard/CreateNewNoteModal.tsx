@@ -3,11 +3,13 @@ import { Form, Formik } from "formik"
 import Modal from "../../ui/Modal"
 import Button from "../../ui/Button"
 import InputField from "../../components/form-fields/InputField"
+import useNotesStore from "./useNotesStore"
 
 type NewNoteModalProps = {
   onRequestClose: () => void
   data?: {
     name: string
+    folderID: number
     content: string
   }
   edit?: boolean
@@ -18,11 +20,13 @@ const CreateNewNoteModal: FC<NewNoteModalProps> = ({
   data,
   edit,
 }) => {
+  const { selectedFolder } = useNotesStore()
   return (
     <Modal isOpen onRequestClose={onRequestClose}>
       <Formik<{
         name: string
         content: string
+        folderID: number
       }>
         validateOnChange={false}
         validateOnBlur={false}
@@ -37,14 +41,22 @@ const CreateNewNoteModal: FC<NewNoteModalProps> = ({
 
           return errors
         }}
-        initialValues={data ? data : { name: "", content: "" }}
-        onSubmit={async ({ name, content }) => {
-          console.log("Submitting note with title " + name)
-          console.log("The contents of which are: " + content)
-          await Promise.resolve(console.log("hello"))
+        initialValues={
+          data ? data : { name: "", content: "", folderID: selectedFolder }
+        }
+        onSubmit={async ({ name, content, folderID }) => {
+          const success = await useNotesStore
+            .getState()
+            .insert({ Name: name, Data: content, FolderID: folderID })
+
+          if (success) {
+            useNotesStore.getState().select(folderID)
+          }
+
+          onRequestClose()
         }}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, values: { folderID } }) => (
           <Form className={`grid grid-cols-3 gap-4 focus:outline-none w-full`}>
             <div className={`col-span-3 block`}>
               <h4 className={`mb-2 text-primary-100`}>
@@ -54,6 +66,7 @@ const CreateNewNoteModal: FC<NewNoteModalProps> = ({
                 Create new note. Enter the title and the content below
               </div>
             </div>
+            <input type="hidden" name="folderID" value={folderID} />
             <div className={`flex h-full w-full col-span-3`}>
               <InputField
                 className={`rounded-8 bg-primary-400 h-6`}
@@ -74,7 +87,6 @@ const CreateNewNoteModal: FC<NewNoteModalProps> = ({
                 textArea
               />
             </div>
-
             <div className={`flex pt-2 space-x-3 col-span-full items-center`}>
               <Button loading={isSubmitting} type="submit" className={`mr-3`}>
                 {edit ? "Update" : "Create Note"}

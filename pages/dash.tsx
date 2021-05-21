@@ -1,10 +1,16 @@
+import { useState } from "react"
+import { showErrorToast } from "../lib/showToast"
+import CreateNewNoteModal from "../modules/dashboard/CreateNewNoteModal"
 import NotesListController from "../modules/dashboard/NotesListController"
+import useNotesStore from "../modules/dashboard/useNotesStore"
 import HeaderController from "../modules/display/HeaderController"
 import DesktopLayout from "../modules/layouts/DesktopLayout"
 import { MiddlePanel } from "../modules/layouts/GridPanels"
 import DashHeader from "../ui/DashHeader"
 
 const Dash = () => {
+  const [showNoteModal, setShowNoteModal] = useState(false)
+  const { selectedFolder } = useNotesStore()
   return (
     <DesktopLayout>
       <HeaderController title="Dashboard"></HeaderController>
@@ -13,11 +19,20 @@ const Dash = () => {
           <DashHeader
             title="Your Notes"
             ctaTitle="New Note"
-            onCtaClicked={() => console.log("Ah yes, climck")}
+            onCtaClicked={() => {
+              if (selectedFolder === -1) {
+                showErrorToast("Please select a folder first")
+              } else {
+                setShowNoteModal(true)
+              }
+            }}
           />
         }
       >
         <NotesListController />
+        {showNoteModal && (
+          <CreateNewNoteModal onRequestClose={() => setShowNoteModal(false)} />
+        )}
       </MiddlePanel>
     </DesktopLayout>
   )
