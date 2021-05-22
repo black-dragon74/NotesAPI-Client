@@ -1,7 +1,6 @@
 import "../styles/globals.scss"
 import { AppProps } from "next/app"
 import Head from "next/head"
-import { isServer } from "../lib/isServer"
 import { useEffect, useState } from "react"
 import { AuthContextProvider } from "../modules/auth/AuthProvider"
 import { QueryClient, QueryClientProvider } from "react-query"
@@ -11,8 +10,6 @@ import ReactModal from "react-modal"
 ReactModal.setAppElement("#__next")
 
 function MyApp({ Component, pageProps }: AppProps) {
-  // Perform SSR only when meant to, i.e.  if `getInitialProps` is present
-  const skipSSR = isServer && !Component.getInitialProps
   const [isMounted, setIsMounted] = useState(false)
 
   // TODO: Use a custom query client that can handle errors automatically
@@ -24,7 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   // If we have to skip SSR, we must not render anything while unmounted to
   // match React re-hydration expectations and to fix related warnings/errors
-  if (skipSSR || !isMounted) {
+  if (!isMounted) {
     return null
   }
 

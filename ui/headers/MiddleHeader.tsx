@@ -12,7 +12,6 @@ const MiddleHeader = () => {
       fetch(quoteURL)
         .then(resp => {
           resp.json().then(data => {
-            console.log(data)
             const fq = data.quotes as {
               author: string
               tag: string

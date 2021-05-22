@@ -1,16 +1,38 @@
-import { NextPage } from "next"
 import { useRouter } from "next/router"
+import { useEffect } from "react"
+import Spinner from "../../ui/Spinner"
+import useNotesStore from "../dashboard/useNotesStore"
+import HeaderController from "../display/HeaderController"
+import DesktopLayout from "../layouts/DesktopLayout"
+import { MiddlePanel } from "../layouts/GridPanels"
 
-interface NotePageProps {}
-
-const NotePage: NextPage<NotePageProps> = () => {
+const NotePage = () => {
   const { query } = useRouter()
-  return <div>Henlo from the other side! {JSON.stringify(query)}</div>
-}
+  const { read, fetched, sync } = useNotesStore()
 
-NotePage.getInitialProps = async ({ query }) => {
-  await Promise.resolve(console.log(query))
-  return {}
+  let id = ""
+  if (typeof query.id === "string" && query.id !== "") {
+    id = query.id
+  }
+
+  useEffect(() => {
+    if (!fetched) {
+      sync()
+    }
+  }, [fetched, sync])
+
+  return (
+    <>
+      <HeaderController title={read(parseInt(id))?.Name} />
+      <DesktopLayout leftPanel={<div />} rightPanel={<div />}>
+        <MiddlePanel>
+          <div className="flex flex-col text-primary-100 text-justify justify-center items-center">
+            {read(parseInt(id))?.Data || <Spinner />}
+          </div>
+        </MiddlePanel>
+      </DesktopLayout>
+    </>
+  )
 }
 
 export default NotePage

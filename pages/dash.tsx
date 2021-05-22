@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { showErrorToast } from "../lib/showToast"
 import CreateNewNoteModal from "../modules/dashboard/CreateNewNoteModal"
+import FolderView from "../modules/dashboard/FolderView"
 import NotesListController from "../modules/dashboard/NotesListController"
 import useNotesStore from "../modules/dashboard/useNotesStore"
 import HeaderController from "../modules/display/HeaderController"
@@ -12,7 +13,7 @@ const Dash = () => {
   const [showNoteModal, setShowNoteModal] = useState(false)
   const { selectedFolder } = useNotesStore()
   return (
-    <DesktopLayout>
+    <DesktopLayout leftPanel={<FolderView />} rightPanel={<div />}>
       <HeaderController title="Dashboard"></HeaderController>
       <MiddlePanel
         stickyChildren={

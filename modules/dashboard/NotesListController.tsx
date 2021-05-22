@@ -1,9 +1,11 @@
+import { useRouter } from "next/router"
 import { useEffect } from "react"
 import NoteCard from "../../ui/NoteCard"
 import useNotesStore from "./useNotesStore"
 
 const NotesListController = () => {
-  const { sync, notes, renderNotes, selectedFolder } = useNotesStore()
+  const { sync, renderNotes, selectedFolder } = useNotesStore()
+  const { push } = useRouter()
 
   useEffect(() => {
     sync()
@@ -24,7 +26,12 @@ const NotesListController = () => {
       )}
 
       {renderNotes.map(note => (
-        <NoteCard key={note.ID} title={note.Name} excerpt={note.Data} />
+        <NoteCard
+          key={note.ID}
+          title={note.Name}
+          excerpt={note.Data}
+          onClick={() => push(`/note/${note.ID}`)}
+        />
       ))}
     </div>
   )

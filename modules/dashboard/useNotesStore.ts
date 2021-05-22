@@ -78,6 +78,9 @@ const useNotesStore = create(
         set(state => ({ notes: [...(state.notes || []), result] }))
         return true
       },
+      read: (noteID: number) => {
+        return get().notes.find(e => e.ID === noteID)
+      },
     })
   )
 )
