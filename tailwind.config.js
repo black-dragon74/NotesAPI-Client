@@ -139,5 +139,6 @@ module.exports = {
       borderWidth: ["last"],
     },
   },
+  // eslint-disable-next-line global-require
   plugins: [require("tailwind-scrollbar"), require("@tailwindcss/line-clamp")],
 }
