@@ -6,10 +6,12 @@ import { AuthContextProvider } from "../modules/auth/AuthProvider"
 import { QueryClient, QueryClientProvider } from "react-query"
 import ToastController from "../modules/toast/ToastController"
 import ReactModal from "react-modal"
+import { isServer } from "../lib/isServer"
 
 ReactModal.setAppElement("#__next")
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const skipSSR = isServer && !Component.getInitialProps
   const [isMounted, setIsMounted] = useState(false)
 
   // TODO: Use a custom query client that can handle errors automatically
@@ -21,7 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   // If we have to skip SSR, we must not render anything while unmounted to
   // match React re-hydration expectations and to fix related warnings/errors
-  if (!isMounted) {
+  if (skipSSR || !isMounted) {
     return null
   }
 

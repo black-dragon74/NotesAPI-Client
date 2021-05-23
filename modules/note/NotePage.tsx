@@ -1,38 +1,64 @@
-import { useRouter } from "next/router"
-import { useEffect } from "react"
-import Spinner from "../../ui/Spinner"
-import useNotesStore from "../dashboard/useNotesStore"
-import HeaderController from "../display/HeaderController"
+import { NoteType } from "../../types/NoteType"
 import DesktopLayout from "../layouts/DesktopLayout"
 import { MiddlePanel } from "../layouts/GridPanels"
+import { FC } from "react"
+import { GetServerSideProps, InferGetServerSidePropsType } from "next"
+import Cookie from "cookie"
+import getRoute from "../../lib/getRoute"
 
-const NotePage = () => {
-  const { query } = useRouter()
-  const { read, fetched, sync } = useNotesStore()
+interface NotePageProps {
+  note?: NoteType
+}
 
+const NotePage: FC<NotePageProps> = ({
+  note,
+}): InferGetServerSidePropsType<typeof getServerSideProps> => {
+  return (
+    <DesktopLayout>
+      <MiddlePanel>
+        <div className="text-primary">{note?.Data}</div>
+      </MiddlePanel>
+    </DesktopLayout>
+  )
+}
+
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  query,
+}) => {
+  console.log(req.headers)
+  const headers = req?.headers.cookie || ""
   let id = ""
+  let note: NotePageProps = {}
+
   if (typeof query.id === "string" && query.id !== "") {
     id = query.id
   }
 
-  useEffect(() => {
-    if (!fetched) {
-      sync()
-    }
-  }, [fetched, sync])
+  if (id) {
+    const { accessToken } = Cookie.parse(headers)
+    try {
+      const resp = await getRoute(`/notes/get/${id}`, accessToken)
 
-  return (
-    <>
-      <HeaderController title={read(parseInt(id))?.Name} />
-      <DesktopLayout leftPanel={<div />} rightPanel={<div />}>
-        <MiddlePanel>
-          <div className="flex flex-col text-primary-100 text-justify justify-center items-center">
-            {read(parseInt(id))?.Data || <Spinner />}
-          </div>
-        </MiddlePanel>
-      </DesktopLayout>
-    </>
-  )
+      if ("data" in resp) {
+        note = resp.data
+      } else {
+        return {
+          notFound: true,
+        }
+      }
+    } catch (e) {
+      console.error((e as Error).message)
+    }
+  }
+
+  console.log(note)
+
+  return {
+    props: {
+      note,
+    },
+  }
 }
 
 export default NotePage
