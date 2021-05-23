@@ -10,6 +10,8 @@ interface NotePageProps {
   note?: NoteType
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 const NotePage: FC<NotePageProps> = ({
   note,
 }): InferGetServerSidePropsType<typeof getServerSideProps> => {

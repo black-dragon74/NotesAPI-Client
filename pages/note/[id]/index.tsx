@@ -19,7 +19,6 @@ const NotePage: FC<NotePageProps> = ({ note }) => {
       <DesktopLayout>
         <MiddlePanel>
           <div className="text-primary">{note?.Data}</div>
-          {"Data" in note ? null : "no damta"}
         </MiddlePanel>
       </DesktopLayout>
     </>
