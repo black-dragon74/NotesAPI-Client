@@ -23,9 +23,12 @@ const Logout = () => {
   return (
     <>
       <HeaderController title="Logout" />
-      <div className="flex ml-auto justify-center items-center h-screen w-full">
+      <div className="flex flex-col gap-5 justify-center items-center h-screen w-full">
+        <h2 className="text-xl text-primary-100 block">
+          You should be logged out automatically. If not
+        </h2>
         <Button onClick={clearTokens} color="primary" size="big" transition>
-          Click here to logout manually
+          Click me to logout manually
         </Button>
       </div>
     </>

@@ -48,6 +48,9 @@ const FolderView = () => {
       ) : (
         <Spinner />
       )}
+      {typeof folders?.length === "undefined" ? (
+        <p className="text-primary-100 text-center">No folders</p>
+      ) : null}
       {showAddModel && (
         <CreateNewFolderModal onClose={() => setShowAddModal(false)} />
       )}

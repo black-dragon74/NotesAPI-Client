@@ -4,7 +4,7 @@ import { useTokenStore } from "../auth/useTokenStore"
 import create from "zustand"
 import { combine } from "zustand/middleware"
 const syncFoldersFromServer = async (): Promise<FolderType[]> => {
-  const retVal = [{ ID: 0, Name: "", UserID: 0 }]
+  const retVal = [] as FolderType[]
   const folderResp = await fetch(`${API_URL}/folders/get`, {
     headers: {
       Authorization: `Bearer ${useTokenStore.getState().accessToken}`,
@@ -33,10 +33,7 @@ const syncFoldersFromServer = async (): Promise<FolderType[]> => {
 const addFolderToServer = async (
   folder: string
 ): Promise<Omit<FolderType, "UserID">> => {
-  const retVal = {
-    ID: 0,
-    Name: "",
-  }
+  const retVal = {} as FolderType
 
   const serverResp = await fetch(`${API_URL}/folders/create`, {
     body: `{"name": "${folder}"}`,

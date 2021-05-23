@@ -19,13 +19,13 @@ const NotesListController = () => {
         </p>
       ) : null}
 
-      {selectedFolder !== -1 && renderNotes.length === 0 && (
+      {selectedFolder !== -1 && renderNotes?.length === 0 && (
         <div className="text-primary-100 text-center font-bold">
           No notes exist in the selected folder
         </div>
       )}
 
-      {renderNotes.map(note => (
+      {renderNotes?.map(note => (
         <NoteCard
           key={note.ID}
           title={note.Name}

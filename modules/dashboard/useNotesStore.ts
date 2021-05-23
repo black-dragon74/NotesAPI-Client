@@ -68,7 +68,7 @@ const useNotesStore = create(
       },
       select: (id: number) =>
         set({
-          renderNotes: get().notes.filter(n => n.FolderID === id),
+          renderNotes: get().notes?.filter(n => n.FolderID === id),
           selectedFolder: id,
         }),
       insert: async (a: Omit<NoteType, "ID">) => {
