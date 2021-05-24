@@ -35,7 +35,9 @@ const MainLayout: FC<MainLayoutProps> = ({
     case ScreenType.TwoCol:
       gridContents = (
         <>
-          <LeftPanel>Implement iPad sidebar</LeftPanel>
+          <LeftPanel>
+            <div />
+          </LeftPanel>
           {children}
           <RightPanel>{rightPanel}</RightPanel>
         </>
@@ -44,7 +46,9 @@ const MainLayout: FC<MainLayoutProps> = ({
     case ScreenType.OneCol:
       gridContents = (
         <>
-          <LeftPanel>Implement iPad sidebar</LeftPanel>
+          <LeftPanel>
+            <div />
+          </LeftPanel>
           {children}
           <div>Implement floating shiz</div>
         </>
