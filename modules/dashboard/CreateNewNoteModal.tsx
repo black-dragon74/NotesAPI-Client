@@ -47,7 +47,7 @@ const CreateNewNoteModal: FC<NewNoteModalProps> = ({
         onSubmit={async ({ name, content, folderID }) => {
           const success = await useNotesStore
             .getState()
-            .insert({ Name: name, Data: content, FolderID: folderID })
+            .insert({ name, data: content, folder_id: folderID })
 
           if (success) {
             useNotesStore.getState().select(folderID)

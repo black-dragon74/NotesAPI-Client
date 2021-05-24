@@ -15,10 +15,10 @@ interface NotePageProps {
 const NotePage: FC<NotePageProps> = ({ note }) => {
   return (
     <>
-      <HeaderController title={note?.Name} />
+      <HeaderController title={note?.name} />
       <DesktopLayout>
         <MiddlePanel>
-          <div className="text-primary">{note?.Data}</div>
+          <div className="text-primary">{note?.data}</div>
         </MiddlePanel>
       </DesktopLayout>
     </>

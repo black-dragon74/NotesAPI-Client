@@ -24,7 +24,7 @@ const getNotesFromSever = async (): Promise<NoteType[]> => {
 }
 
 const addNoteToServer = async (
-  val: Omit<NoteType, "ID">
+  val: Omit<NoteType, "note_id">
 ): Promise<NoteType> => {
   const retVal = {} as NoteType
   const req = await fetch(`${notesURL}/create`, {
@@ -32,7 +32,7 @@ const addNoteToServer = async (
     headers: {
       Authorization: `Bearer ${useTokenStore.getState().accessToken}`,
     },
-    body: `{"name": "${val.Name}", "data": "${val.Data}", "folder_id": ${val.FolderID}}`,
+    body: `{"name": "${val.name}", "data": "${val.data}", "folder_id": ${val.folder_id}}`,
   })
 
   if (req.status !== 200) return retVal
@@ -46,7 +46,7 @@ const addNoteToServer = async (
 
   return {
     ...val,
-    ID: body.data.note_id,
+    note_id: body.data.note_id,
   }
 }
 
@@ -68,18 +68,18 @@ const useNotesStore = create(
       },
       select: (id: number) =>
         set({
-          renderNotes: get().notes?.filter(n => n.FolderID === id),
+          renderNotes: get().notes?.filter(n => n.folder_id === id),
           selectedFolder: id,
         }),
-      insert: async (a: Omit<NoteType, "ID">) => {
+      insert: async (a: Omit<NoteType, "note_id">) => {
         const result = await addNoteToServer(a)
         console.warn(result)
-        if (typeof result.ID === "undefined") return false
+        if (typeof result.note_id === "undefined") return false
         set(state => ({ notes: [...(state.notes || []), result] }))
         return true
       },
       read: (noteID: number) => {
-        return get().notes.find(e => e.ID === noteID)
+        return get().notes.find(e => e.note_id === noteID)
       },
     })
   )

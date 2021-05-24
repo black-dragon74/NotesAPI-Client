@@ -27,10 +27,10 @@ const NotesListController = () => {
 
       {renderNotes?.map(note => (
         <NoteCard
-          key={note.ID}
-          title={note.Name}
-          excerpt={note.Data}
-          onClick={() => push(`/note/${note.ID}`)}
+          key={note.note_id}
+          title={note.name}
+          excerpt={note.data}
+          onClick={() => push(`/note/${note.note_id}`)}
         />
       ))}
     </div>

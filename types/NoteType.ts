@@ -1,6 +1,6 @@
 export type NoteType = {
-  ID: number
-  FolderID: number
-  Data: string
-  Name: string
+  note_id: number
+  folder_id: number
+  data: string
+  name: string
 }

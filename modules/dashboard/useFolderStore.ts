@@ -32,7 +32,7 @@ const syncFoldersFromServer = async (): Promise<FolderType[]> => {
 // TODO: Ask sid to change the return type when updating the folder
 const addFolderToServer = async (
   folder: string
-): Promise<Omit<FolderType, "UserID">> => {
+): Promise<Omit<FolderType, "user_id">> => {
   const retVal = {} as FolderType
 
   const serverResp = await fetch(`${API_URL}/folders/create`, {
@@ -52,8 +52,8 @@ const addFolderToServer = async (
   }
 
   return {
-    ID: body.data.folder_id,
-    Name: body.data.name,
+    folder_id: body.data.folder_id,
+    name: body.data.name,
   }
 }
 
@@ -72,8 +72,10 @@ const deleteFolder = async (id: number): Promise<boolean> => {
 
   if (typeof body.data === "undefined") return false
 
+  console.log(body.data)
+
   // TODO: Fix it after API changes
-  return (body.data as number) === id
+  return (body.data.folder_id as number) === id
 }
 
 const useFolderStore = create(
@@ -89,12 +91,12 @@ const useFolderStore = create(
       },
       add: async (folder: string) => {
         const resp = await addFolderToServer(folder)
-        if (typeof resp.ID !== "undefined") {
+        if (typeof resp.folder_id !== "undefined") {
           if (get().folders === null) {
-            set({ folders: [{ ...resp, UserID: 0 }] })
+            set({ folders: [{ ...resp, user_id: 0 }] })
           } else {
             set(state => ({
-              folders: [...state.folders, { ...resp, UserID: 0 }],
+              folders: [...state.folders, { ...resp, user_id: 0 }],
             }))
           }
         }
@@ -103,7 +105,9 @@ const useFolderStore = create(
         const resp = await deleteFolder(id)
 
         if (resp === true) {
-          set(state => ({ folders: state.folders.filter(f => f.ID !== id) }))
+          set(state => ({
+            folders: state.folders.filter(f => f.folder_id !== id),
+          }))
         }
 
         return resp

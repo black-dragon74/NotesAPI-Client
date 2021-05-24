@@ -15,7 +15,7 @@ const FolderView = () => {
   const [showAddModel, setShowAddModal] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
   const { folders, fetched, remove, sync } = useFolderStore()
-  const { select, selectedFolder: sf } = useNotesStore()
+  const { selectedFolder: sf } = useNotesStore()
 
   useEffect(() => {
     sync()
@@ -33,15 +33,15 @@ const FolderView = () => {
         folders?.map(folder => {
           return (
             <FolderCard
-              key={folder.ID}
-              selected={folder.ID === sf}
-              title={folder.Name}
+              key={folder.folder_id}
+              selected={folder.folder_id === sf}
+              title={folder.name}
               onDelete={() => {
-                selectedFolder.current = folder.ID
-                selectedFolderName.current = folder.Name
+                selectedFolder.current = folder.folder_id
+                selectedFolderName.current = folder.name
                 setShowConfirm(true)
               }}
-              onClick={() => useNotesStore.getState().select(folder.ID)}
+              onClick={() => useNotesStore.getState().select(folder.folder_id)}
             />
           )
         })

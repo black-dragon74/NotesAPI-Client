@@ -18,7 +18,7 @@ const NotePage: FC<NotePageProps> = ({
   return (
     <DesktopLayout>
       <MiddlePanel>
-        <div className="text-primary">{note?.Data}</div>
+        <div className="text-primary">{note?.data}</div>
       </MiddlePanel>
     </DesktopLayout>
   )

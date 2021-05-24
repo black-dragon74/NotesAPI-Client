@@ -1,5 +1,5 @@
 export type FolderType = {
-  ID: number
-  UserID: number
-  Name: string
+  folder_id: number
+  user_id: number
+  name: string
 }
