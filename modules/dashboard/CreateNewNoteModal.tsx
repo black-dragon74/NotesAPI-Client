@@ -82,7 +82,6 @@ const CreateNewNoteModal: FC<NewNoteModalProps> = ({
                 className={`h-11 col-span-3 w-full`}
                 name="content"
                 rows={3}
-                maxLength={500}
                 placeholder="Enter the contents of the note"
                 textArea
               />

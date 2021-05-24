@@ -73,7 +73,6 @@ const useNotesStore = create(
         }),
       insert: async (a: Omit<NoteType, "note_id">) => {
         const result = await addNoteToServer(a)
-        console.warn(result)
         if (typeof result.note_id === "undefined") return false
         set(state => ({ notes: [...(state.notes || []), result] }))
         return true

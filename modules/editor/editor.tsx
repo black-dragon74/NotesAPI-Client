@@ -1,36 +1,14 @@
-import { useCallback, useState, FC, useEffect } from "react"
-import "quill/dist/quill.snow.css"
-import Quill from "quill"
+import { FC } from "react"
+import ReactQuill from "react-quill"
+import "react-quill/dist/quill.snow.css"
 
-const Editor: FC = () => {
-  const editorRef = useCallback(callee => {
-    if (callee === undefined) return
-    callee.innerHTML = ""
-    const editorContainer = document.createElement("div")
-    callee.append(editorContainer)
-    /* eslint-disable no-new */
-    new Quill(editorContainer, {
-      theme: "snow",
-    })
-  }, [])
-  const [width, setWidth] = useState(window.innerWidth)
-  useEffect(() => {
-    const resizeListener = (_: UIEvent) => setWidth(window.innerWidth)
-    window.addEventListener("resize", resizeListener)
+type EditorProps = {
+  value: string
+  onChange: (content: string) => void
+}
 
-    return () => {
-      window.removeEventListener("resize", resizeListener)
-    }
-  }, [])
-
-  return (
-    // Quill mounts here!
-    <div
-      id="editor-root"
-      ref={editorRef}
-      style={{ width: width - 300 + "px", height: "80vh" }}
-    />
-  )
+const Editor: FC<EditorProps> = ({ value, onChange }) => {
+  return <ReactQuill theme="snow" value={value} onChange={onChange} />
 }
 
 export default Editor
