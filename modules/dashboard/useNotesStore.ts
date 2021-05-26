@@ -97,7 +97,6 @@ const useNotesStore = create(
   combine(
     {
       notes: [] as NoteType[],
-      renderNotes: [] as NoteType[],
       fetched: false,
       selectedFolder: -1 as number,
     },
@@ -109,20 +108,20 @@ const useNotesStore = create(
 
         set({ notes, fetched: true })
       },
-      select: (id: number) =>
-        set({
-          renderNotes: get().notes?.filter(n => n.folder_id === id),
-          selectedFolder: id,
-        }),
+
+      select: (id: number) => set({ selectedFolder: id }),
+
       insert: async (a: NewNoteType) => {
         const result = await addNoteToServer(a)
         if (typeof result.note_id === "undefined") return false
         set(state => ({ notes: [...(state.notes || []), result] }))
         return true
       },
+
       read: (noteID: number) => {
         return get().notes.find(e => e.note_id === noteID)
       },
+
       update: async (note: NoteType) => {
         const res = await updateNote(note)
         if (typeof res.note_id === "undefined") return false
@@ -132,6 +131,7 @@ const useNotesStore = create(
 
         return true
       },
+
       delete: async (note: NoteType) => {
         const res = await deleteNote(note)
         if (res !== true) return false

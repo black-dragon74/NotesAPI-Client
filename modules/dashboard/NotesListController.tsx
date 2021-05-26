@@ -4,8 +4,9 @@ import NoteCard from "../../ui/NoteCard"
 import useNotesStore from "./useNotesStore"
 
 const NotesListController = () => {
-  const { sync, renderNotes, selectedFolder } = useNotesStore()
+  const { sync, notes, selectedFolder } = useNotesStore()
   const { push } = useRouter()
+  const renderNotes = notes.filter(note => note.folder_id === selectedFolder)
 
   useEffect(() => {
     sync()
