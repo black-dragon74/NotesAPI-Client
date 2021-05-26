@@ -1,4 +1,4 @@
-import { FC, useState } from "react"
+import { FC, useRef } from "react"
 import { GetServerSideProps } from "next"
 import dynamic from "next/dynamic"
 import Cookie from "cookie"
@@ -16,7 +16,7 @@ interface NotePageProps {
 }
 
 const NotePage: FC<NotePageProps> = ({ note }) => {
-  const [content, setContent] = useState(() => note.data || "")
+  const content = useRef(note.data || "")
 
   // Skip ssr for this component
   const Editor = dynamic(() => import("../../../modules/editor/editor"), {
@@ -53,7 +53,10 @@ const NotePage: FC<NotePageProps> = ({ note }) => {
             </div>
           }
         >
-          <Editor onChange={v => setContent(v)} value={content} />
+          <Editor
+            onChange={v => (content.current = v)}
+            value={content.current}
+          />
         </MiddlePanel>
       </DesktopLayout>
     </>
