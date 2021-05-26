@@ -1,66 +1,98 @@
+import { FC, useRef, useState } from "react"
+import dynamic from "next/dynamic"
+import DesktopLayout from "../../modules/layouts/DesktopLayout"
+import { MiddlePanel } from "../../modules/layouts/GridPanels"
 import { NoteType } from "../../types/NoteType"
-import DesktopLayout from "../layouts/DesktopLayout"
-import { MiddlePanel } from "../layouts/GridPanels"
-import { FC } from "react"
-import { GetServerSideProps, InferGetServerSidePropsType } from "next"
-import Cookie from "cookie"
-import getRoute from "../../lib/getRoute"
+import HeaderController from "../../modules/display/HeaderController"
+import Spinner from "../../ui/Spinner"
+import Button from "../../ui/Button"
+import useNotesStore from "../../modules/dashboard/useNotesStore"
+import { showErrorToast, showSuccessToast } from "../../lib/showToast"
+import { useRouter } from "next/router"
+import ConfirmModal from "../../ui/ConfirmModal"
 
 interface NotePageProps {
-  note?: NoteType
+  note: NoteType
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-const NotePage: FC<NotePageProps> = ({
-  note,
-}): InferGetServerSidePropsType<typeof getServerSideProps> => {
+const InnerNotePage: FC<NotePageProps> = ({ note }) => {
+  const content = useRef(note.data || "")
+  const { replace } = useRouter()
+  const [showConfirm, setShowConfirm] = useState(false)
+
+  // Skip ssr for this component
+  const Editor = dynamic(() => import("../../modules/editor/editor"), {
+    ssr: false,
+    // eslint-disable-next-line
+    loading: () => (
+      <div className="flex flex-col gap-4 w-full justify-center">
+        <Spinner />
+        <h2 className="text-xl text-primary-100 text-center">
+          Loading editor...
+        </h2>
+      </div>
+    ),
+  })
+
   return (
-    <DesktopLayout>
-      <MiddlePanel>
-        <div className="text-primary">{note?.data}</div>
-      </MiddlePanel>
-    </DesktopLayout>
+    <>
+      <HeaderController title={note.name} />
+      <DesktopLayout>
+        <MiddlePanel
+          stickyChildren={
+            <div className="flex justify-between items-end mb-5">
+              <h4 className="text-primary-100">{note.name}</h4>
+              <div className="flex flex-row gap-2">
+                <Button
+                  color="primary-300"
+                  onClick={async () => {
+                    const success = await useNotesStore.getState().update({
+                      note_id: note.note_id,
+                      name: note.name,
+                      folder_id: note.folder_id,
+                      data: content.current,
+                    })
+
+                    if (success) {
+                      showSuccessToast("Note updated successfully")
+                    } else {
+                      showErrorToast("Failed to update the note")
+                    }
+                  }}
+                >
+                  Update
+                </Button>
+
+                <Button onClick={() => setShowConfirm(true)}>Delete</Button>
+              </div>
+            </div>
+          }
+        >
+          <Editor
+            onChange={v => (content.current = v)}
+            value={content.current}
+          />
+          {showConfirm && (
+            <ConfirmModal
+              title={`Deleting ${note.name}`}
+              subtitle={"Are you sure you want to delete this note?"}
+              onPositiveResponse={async () => {
+                const success = await useNotesStore.getState().delete(note)
+
+                if (success) {
+                  showSuccessToast("Note deleted successfully.")
+                  replace("/dash")
+                } else {
+                  showErrorToast("Unable to delete the note.")
+                }
+              }}
+              onNegativeResponse={() => setShowConfirm(false)}
+            />
+          )}
+        </MiddlePanel>
+      </DesktopLayout>
+    </>
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({
-  req,
-  query,
-}) => {
-  console.log(req.headers)
-  const headers = req?.headers.cookie || ""
-  let id = ""
-  let note: NotePageProps = {}
-
-  if (typeof query.id === "string" && query.id !== "") {
-    id = query.id
-  }
-
-  if (id) {
-    const { accessToken } = Cookie.parse(headers)
-    try {
-      const resp = await getRoute(`/notes/get/${id}`, accessToken)
-
-      if ("data" in resp) {
-        note = resp.data
-      } else {
-        return {
-          notFound: true,
-        }
-      }
-    } catch (e) {
-      console.error((e as Error).message)
-    }
-  }
-
-  console.log(note)
-
-  return {
-    props: {
-      note,
-    },
-  }
-}
-
-export default NotePage
+export default InnerNotePage

@@ -53,6 +53,46 @@ const addNoteToServer = async (val: NewNoteType): Promise<NoteType> => {
   }
 }
 
+const deleteNote = async (note: NoteType): Promise<boolean> => {
+  const url = `${notesURL}/delete`
+  const resp = await fetch(url, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${useTokenStore.getState().accessToken}`,
+    },
+    body: JSON.stringify(<{ note_id: number }>{ note_id: note.note_id }),
+  })
+
+  if (resp.status !== 200) return false
+  const body = await resp.json()
+
+  if ((body.success as boolean) !== true) return false
+
+  return true
+}
+
+const updateNote = async (note: NoteType): Promise<NoteType> => {
+  const retVal = {} as NoteType
+  const url = `${notesURL}/update`
+
+  const resp = await fetch(url, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${useTokenStore.getState().accessToken}`,
+    },
+    body: JSON.stringify(note),
+  })
+
+  if (resp.status !== 200) return retVal
+  const body = await resp.json()
+
+  if (typeof body.data === "undefined") return retVal
+
+  if ((body.success as boolean) !== true) return retVal
+
+  return body.data
+}
+
 const useNotesStore = create(
   combine(
     {
@@ -82,6 +122,25 @@ const useNotesStore = create(
       },
       read: (noteID: number) => {
         return get().notes.find(e => e.note_id === noteID)
+      },
+      update: async (note: NoteType) => {
+        const res = await updateNote(note)
+        if (typeof res.note_id === "undefined") return false
+
+        const otherNotes = get().notes.filter(n => n.note_id !== res.note_id)
+        set({ notes: [...(otherNotes || []), res] })
+
+        return true
+      },
+      delete: async (note: NoteType) => {
+        const res = await deleteNote(note)
+        if (res !== true) return false
+
+        set(state => ({
+          notes: state.notes.filter(n => n.note_id !== note.note_id),
+        }))
+
+        return true
       },
     })
   )

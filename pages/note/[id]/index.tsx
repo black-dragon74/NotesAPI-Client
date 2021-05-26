@@ -1,66 +1,17 @@
-import { FC, useRef } from "react"
+import { FC } from "react"
 import { GetServerSideProps } from "next"
-import dynamic from "next/dynamic"
 import Cookie from "cookie"
-import DesktopLayout from "../../../modules/layouts/DesktopLayout"
-import { MiddlePanel } from "../../../modules/layouts/GridPanels"
 import { NoteType } from "../../../types/NoteType"
 import getRoute from "../../../lib/getRoute"
 import { isServer } from "../../../lib/isServer"
-import HeaderController from "../../../modules/display/HeaderController"
-import Spinner from "../../../ui/Spinner"
-import Button from "../../../ui/Button"
+import InnerNotePage from "../../../modules/note/NotePage"
 
 interface NotePageProps {
   note: NoteType
 }
 
 const NotePage: FC<NotePageProps> = ({ note }) => {
-  const content = useRef(note.data || "")
-
-  // Skip ssr for this component
-  const Editor = dynamic(() => import("../../../modules/editor/editor"), {
-    ssr: false,
-    // eslint-disable-next-line
-    loading: () => (
-      <div className="flex flex-col gap-4 w-full justify-center">
-        <Spinner />
-        <h2 className="text-xl text-primary-100 text-center">
-          Loading editor...
-        </h2>
-      </div>
-    ),
-  })
-
-  return (
-    <>
-      <HeaderController title={note.name} />
-      <DesktopLayout>
-        <MiddlePanel
-          stickyChildren={
-            <div className="flex justify-between items-end mb-5">
-              <h4 className="text-primary-100">{note.name}</h4>
-              <div className="flex flex-row gap-2">
-                <Button
-                  color="primary-300"
-                  onClick={() => console.log("Update")}
-                >
-                  Update
-                </Button>
-
-                <Button onClick={() => console.log("Update")}>Delete</Button>
-              </div>
-            </div>
-          }
-        >
-          <Editor
-            onChange={v => (content.current = v)}
-            value={content.current}
-          />
-        </MiddlePanel>
-      </DesktopLayout>
-    </>
-  )
+  return <InnerNotePage note={note} />
 }
 
 // ssr
