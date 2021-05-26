@@ -18,6 +18,8 @@ const Editor: FC<EditorProps> = ({ value = "", onChange }) => {
       callee.innerHTML = ""
 
       const editorContainer = document.createElement("div")
+      editorContainer.style.height = "400px"
+      editorContainer.style.color = "white"
       callee.append(editorContainer)
 
       // eslint-disable-next-line
