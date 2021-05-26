@@ -6,7 +6,7 @@ import useNotesStore from "./useNotesStore"
 const NotesListController = () => {
   const { sync, notes, selectedFolder } = useNotesStore()
   const { push } = useRouter()
-  const renderNotes = notes.filter(note => note.folder_id === selectedFolder)
+  const renderNotes = notes?.filter(note => note.folder_id === selectedFolder)
 
   useEffect(() => {
     sync()
@@ -20,11 +20,13 @@ const NotesListController = () => {
         </p>
       ) : null}
 
-      {selectedFolder !== -1 && renderNotes?.length === 0 && (
-        <div className="text-primary-100 text-center font-bold">
-          No notes exist in the selected folder
-        </div>
-      )}
+      {/* Apologies for this mess but this is how JSX works -_- */}
+      {selectedFolder !== -1 &&
+        (renderNotes === undefined || renderNotes?.length === 0) && (
+          <div className="text-primary-100 text-center font-bold">
+            No notes exist in the selected folder
+          </div>
+        )}
 
       {renderNotes?.map(note => (
         <NoteCard
