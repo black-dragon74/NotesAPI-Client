@@ -24,7 +24,7 @@ const NoteCard: FC<NoteCardProps> = ({
       </div>
       <div className="w-full mt-2 flex">
         <div className="text-primary-300 text-left w-full line-clamp-2">
-          <span>{excerpt}</span>
+          <span>{excerpt.replaceAll(/<[^>]*>/g, " ")}</span>
         </div>
       </div>
     </button>
