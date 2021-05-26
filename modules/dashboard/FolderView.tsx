@@ -66,6 +66,7 @@ const FolderView = () => {
                 `Failed to remove the folder ${selectedFolderName.current}`
               )
             }
+            useNotesStore.getState().select(-1)
             setShowConfirm(false)
           }}
           onNegativeResponse={() => setShowConfirm(false)}
