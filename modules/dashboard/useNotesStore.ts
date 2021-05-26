@@ -5,6 +5,7 @@ import { NoteType } from "../../types/NoteType"
 import { useTokenStore } from "../auth/useTokenStore"
 
 const notesURL = `${API_URL}/notes`
+type NewNoteType = Omit<NoteType, "note_id">
 
 const getNotesFromSever = async (): Promise<NoteType[]> => {
   const req = await fetch(`${notesURL}/getall`, {
@@ -23,16 +24,18 @@ const getNotesFromSever = async (): Promise<NoteType[]> => {
   return notes
 }
 
-const addNoteToServer = async (
-  val: Omit<NoteType, "note_id">
-): Promise<NoteType> => {
+const addNoteToServer = async (val: NewNoteType): Promise<NoteType> => {
   const retVal = {} as NoteType
   const req = await fetch(`${notesURL}/create`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${useTokenStore.getState().accessToken}`,
     },
-    body: `{"name": "${val.name}", "data": "${val.data}", "folder_id": ${val.folder_id}}`,
+    body: JSON.stringify(<NewNoteType>{
+      name: val.name,
+      folder_id: val.folder_id,
+      data: val.data,
+    }),
   })
 
   if (req.status !== 200) return retVal
@@ -71,7 +74,7 @@ const useNotesStore = create(
           renderNotes: get().notes?.filter(n => n.folder_id === id),
           selectedFolder: id,
         }),
-      insert: async (a: Omit<NoteType, "note_id">) => {
+      insert: async (a: NewNoteType) => {
         const result = await addNoteToServer(a)
         if (typeof result.note_id === "undefined") return false
         set(state => ({ notes: [...(state.notes || []), result] }))
