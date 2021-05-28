@@ -22,7 +22,7 @@ const InnerNotePage: FC<NotePageProps> = ({ note }) => {
   const [showConfirm, setShowConfirm] = useState(false)
 
   // Skip ssr for this component
-  const Editor = dynamic(() => import("../../modules/editor/editor"), {
+  const Editor = dynamic(() => import("../editor/editor"), {
     ssr: false,
     // eslint-disable-next-line
     loading: () => (
