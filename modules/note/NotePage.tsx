@@ -10,6 +10,7 @@ import useNotesStore from "../../modules/dashboard/useNotesStore"
 import { showErrorToast, showSuccessToast } from "../../lib/showToast"
 import { useRouter } from "next/router"
 import ConfirmModal from "../../ui/ConfirmModal"
+import MobileHeader from "../../ui/MobileHeader"
 
 interface NotePageProps {
   note: NoteType
@@ -37,7 +38,7 @@ const InnerNotePage: FC<NotePageProps> = ({ note }) => {
   return (
     <>
       <HeaderController title={note.name} />
-      <DesktopLayout>
+      <DesktopLayout mobileHeader={<MobileHeader />}>
         <MiddlePanel
           stickyChildren={
             <div className="flex justify-between items-end mb-5">

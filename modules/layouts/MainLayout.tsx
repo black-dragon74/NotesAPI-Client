@@ -50,7 +50,7 @@ const MainLayout: FC<MainLayoutProps> = ({
             <div />
           </LeftPanel>
           {children}
-          <div>Implement floating shiz</div>
+          {/* <div>Implement floating shiz</div> */}
         </>
       )
       break
@@ -58,7 +58,7 @@ const MainLayout: FC<MainLayoutProps> = ({
       prepend = (
         <>
           {mHeader}
-          <div>Implement mobile nav</div>
+          {/* <div>Implement mobile nav</div> */}
         </>
       )
       gridContents = (
@@ -73,7 +73,7 @@ const MainLayout: FC<MainLayoutProps> = ({
 
   return (
     <>
-      <div className="fixed left-0 w-full-z-10 top-0">{prepend}</div>
+      <div className="fixed left-0 w-full z-10 top-0">{prepend}</div>
       <div
         className={`flex flex-col items-center w-full scrollbar-thin scrollbar-thumb-primary-700 ${
           prepend ? "mt-8 mb-7" : ""

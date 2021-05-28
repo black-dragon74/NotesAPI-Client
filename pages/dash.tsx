@@ -8,12 +8,17 @@ import HeaderController from "../modules/display/HeaderController"
 import DesktopLayout from "../modules/layouts/DesktopLayout"
 import { MiddlePanel } from "../modules/layouts/GridPanels"
 import DashHeader from "../ui/DashHeader"
+import MobileHeader from "../ui/MobileHeader"
 
 const Dash = () => {
   const [showNoteModal, setShowNoteModal] = useState(false)
   const { selectedFolder } = useNotesStore()
   return (
-    <DesktopLayout leftPanel={<FolderView />} rightPanel={<div />}>
+    <DesktopLayout
+      leftPanel={<FolderView />}
+      rightPanel={<div />}
+      mobileHeader={<MobileHeader />}
+    >
       <HeaderController title="Dashboard"></HeaderController>
       <MiddlePanel
         stickyChildren={

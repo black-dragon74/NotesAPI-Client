@@ -20,15 +20,24 @@ export const getServerSideProps: GetServerSideProps = async ({
   query,
 }) => {
   const headers = req.headers.cookie || ""
+  const { accessToken } = Cookie.parse(headers)
   let id = ""
   let note = {} as NoteType
+
+  if (!accessToken) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    }
+  }
 
   if (typeof query.id === "string" && query.id !== "") {
     id = query.id
   }
 
   if (isServer && id) {
-    const { accessToken } = Cookie.parse(headers)
     try {
       const resp = await getRoute(`/notes/get/${id}`, accessToken)
 
