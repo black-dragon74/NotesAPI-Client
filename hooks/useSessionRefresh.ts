@@ -34,8 +34,8 @@ const useSessionRefresh = () => {
             })
             .then(resp => {
               const tokenResp: TokenType = {
-                accessToken: resp.data.authentication_token,
-                refreshToken: resp.data.refresh_token,
+                accessToken: resp.data.data.authentication_token,
+                refreshToken: resp.data.data.refresh_token,
               }
               if (tokenResp.accessToken && tokenResp.refreshToken) {
                 setConnected(true)
@@ -51,6 +51,7 @@ const useSessionRefresh = () => {
             })
         })
     }
+    // eslint-disable-next-line
   }, [connected, hasTokens, replace])
 
   return connected
