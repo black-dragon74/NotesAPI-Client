@@ -29,7 +29,6 @@ const syncFoldersFromServer = async (): Promise<FolderType[]> => {
   return folders
 }
 
-// TODO: Ask sid to change the return type when updating the folder
 const addFolderToServer = async (
   folder: string
 ): Promise<Omit<FolderType, "user_id">> => {
@@ -72,9 +71,6 @@ const deleteFolder = async (id: number): Promise<boolean> => {
 
   if (typeof body.data === "undefined") return false
 
-  console.log(body.data)
-
-  // TODO: Fix it after API changes
   return (body.data.folder_id as number) === id
 }
 

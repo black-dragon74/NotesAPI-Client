@@ -3,7 +3,6 @@ import { AppProps } from "next/app"
 import Head from "next/head"
 import { useEffect, useState } from "react"
 import { AuthContextProvider } from "../modules/auth/AuthProvider"
-import { QueryClient, QueryClientProvider } from "react-query"
 import ToastController from "../modules/toast/ToastController"
 import ReactModal from "react-modal"
 import { isServer } from "../lib/isServer"
@@ -13,9 +12,6 @@ ReactModal.setAppElement("#__next")
 function MyApp({ Component, pageProps }: AppProps) {
   const skipSSR = isServer && !Component.getInitialProps
   const [isMounted, setIsMounted] = useState(false)
-
-  // TODO: Use a custom query client that can handle errors automatically
-  const queryClient = new QueryClient()
 
   useEffect(() => {
     setIsMounted(true)
@@ -30,16 +26,14 @@ function MyApp({ Component, pageProps }: AppProps) {
   // TODO: Add touch-icons meta and manifests
   return (
     <AuthContextProvider>
-      <QueryClientProvider client={queryClient}>
-        <Head>
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, user-scalable=no, user-scalable=0"
-          />
-        </Head>
-        <Component {...pageProps} />
-        <ToastController />
-      </QueryClientProvider>
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, user-scalable=no, user-scalable=0"
+        />
+      </Head>
+      <Component {...pageProps} />
+      <ToastController />
     </AuthContextProvider>
   )
 }

@@ -16,8 +16,8 @@ const MainLayout: FC<MainLayoutProps> = ({
   children,
 }) => {
   const screenType = useScreenType()
-  const mHeader = mobileHeader || <div>Implement Mobile Header</div>
-  const items = null // TODO: Implement mobile header
+  const mHeader = mobileHeader || <div />
+  const items = null
 
   let prepend = null
   let gridContents = null
