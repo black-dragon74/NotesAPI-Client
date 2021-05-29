@@ -1,4 +1,5 @@
 import { FC, ReactNode, useEffect, useRef } from "react"
+import useScreenType, { ScreenType } from "../hooks/useScreenType"
 import SolidPlus from "../icons/SolidPlus"
 
 export type ToastDurations = "short" | "sticky"
@@ -19,6 +20,7 @@ const Toast: FC<ToastProps> = ({
   duration = "short",
   onClose,
 }) => {
+  const screenType = useScreenType()
   const onCloseRef = useRef(onClose)
   onCloseRef.current = onClose
 
@@ -31,10 +33,14 @@ const Toast: FC<ToastProps> = ({
       clearTimeout(timer)
     }
   }, [duration])
+
   return (
     <div
-      className={`flex rounded-8 p-3 mb-2 relative w-full items-center justify-center text-button transition-transform duration-300`}
-      style={{ backgroundColor: `${type === "success" ? "green" : "red"}` }}
+      className={`flex rounded-8 p-3 mx-auto mb-2 relative items-center justify-center text-button transition-transform duration-300`}
+      style={{
+        backgroundColor: `${type === "success" ? "green" : "red"}`,
+        width: screenType === ScreenType.FullScreen ? "100%" : "50%",
+      }}
     >
       {onClose && (
         <div
@@ -51,7 +57,7 @@ const Toast: FC<ToastProps> = ({
         </div>
       )}
       <div className="flex space-x-4 items-center">
-        <div className="bold">{message}</div>
+        <div className="font-bold">{message}</div>
         {button}
       </div>
     </div>
