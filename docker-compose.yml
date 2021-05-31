@@ -1,0 +1,8 @@
+version: "3.3"
+
+services:
+  only-notes-client:
+    ports:
+      - 5080:3000 #Host:Container
+    restart: always
+    build: .
