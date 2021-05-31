@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import { useRouter } from "next/router"
 import { useTokenStore } from "../auth/useTokenStore"
 import HeaderController from "../display/HeaderController"
@@ -8,20 +8,17 @@ import ArcheLogo from "../../icons/ArcheLogo"
 import InputField from "../../components/form-fields/InputField"
 import { Formik } from "formik"
 import { showErrorToast, showSuccessToast } from "../../lib/showToast"
-import { handleLogin, handleSignup } from "../../lib/passport"
+import { resendVerification } from "../../lib/passport"
 
-type LoginFormFields = {
+type VerificationFields = {
   email: string
-  password: string
 }
 
-export const LoginPage = () => {
+export const ResendVerification = () => {
   const hasTokens = useTokenStore(
     state => state.accessToken && state.refreshToken
   )
   const { push, replace } = useRouter()
-  const [isLogin, setIsLogin] = useState(true)
-
   useEffect(() => {
     if (hasTokens) {
       push("/dash")
@@ -34,7 +31,7 @@ export const LoginPage = () => {
         className={`grid w-full h-full`}
         style={{ gridTemplateRows: "1fr auto 1fr" }}
       >
-        <HeaderController title={isLogin ? "Login" : "Signup"} />
+        <HeaderController title="Resend Verification" />
         <div className="flex sm:hidden items-center justify-center">
           <ArcheLogo />
         </div>
@@ -43,17 +40,15 @@ export const LoginPage = () => {
           <div className="flex gap-2 flex-col">
             <span className="text-3xl text-primary-100 font-bold">Welcome</span>
             <div className="text-primary-100 flex-wrap">
-              By {isLogin ? "logging in" : "signing up"} you agree to our&nbsp;
-              <a href="#" className="hover:underline text-accent">
-                terms and conditions.
-              </a>
+              Please enter your email and click send to resend verification
+              email.
             </div>
           </div>
-          <Formik<LoginFormFields>
+          <Formik<VerificationFields>
             validateOnBlur={false}
             validateOnChange={false}
-            initialValues={{ email: "", password: "" }}
-            validate={({ email, password }) => {
+            initialValues={{ email: "" }}
+            validate={({ email }) => {
               const errors: Record<string, string> = {}
 
               if (!email) {
@@ -64,53 +59,24 @@ export const LoginPage = () => {
                 errors.email = "Invalid email"
               }
 
-              if (!password) {
-                errors.password = "Required"
-              }
-
               return errors
             }}
-            onSubmit={async ({ email, password }, { setSubmitting }) => {
-              // Login flow
-              if (isLogin) {
-                const resp = await handleLogin(email, password)
-
-                if (!resp.success && resp.errorMsg) {
-                  showErrorToast(resp.errorMsg)
-                }
-
-                if (resp.success && resp.token) {
-                  useTokenStore.getState().setTokens(resp.token)
-                  replace("/dash")
-                }
-                setSubmitting(false)
-                return
-              }
-
-              // Singup flow
-              const resp = await handleSignup(
+            onSubmit={async ({ email }, { setSubmitting }) => {
+              const resp = await resendVerification(
                 email,
-                password,
                 `${window.location.origin}/verify`
               )
 
-              if (!resp.success) {
-                showErrorToast("Error in signing up")
-                return
+              if (!resp.success && resp.errorMsg) {
+                showErrorToast(resp.errorMsg)
               }
 
-              if (resp.user_created) {
-                if (resp.verification_email_sent) {
-                  showSuccessToast("User created and verification email sent.")
-                  setIsLogin(true)
-                } else {
-                  showErrorToast(
-                    "User created. Failed to send verification email."
-                  )
-                }
-              } else {
-                showErrorToast("Failed to create the user")
+              if (resp.success) {
+                showSuccessToast("Verification mail resent")
+                replace("/")
               }
+
+              setSubmitting(false)
             }}
           >
             {({ handleSubmit, isSubmitting }) => (
@@ -124,17 +90,8 @@ export const LoginPage = () => {
                   name="email"
                   placeholder="Enter your email"
                 />
-                <InputField
-                  name="password"
-                  type="password"
-                  placeholder="Enter your password"
-                />
-                <Button
-                  loading={isSubmitting}
-                  type="submit"
-                  color={isLogin ? "primary" : "accent-secondary"}
-                >
-                  {isLogin ? "Login" : "Signup"}
+                <Button loading={isSubmitting} type="submit">
+                  Send
                 </Button>
               </form>
             )}
@@ -145,20 +102,10 @@ export const LoginPage = () => {
               className="block text-accent hover:underline"
               onClick={e => {
                 e.preventDefault()
-                setIsLogin(p => !p)
+                replace("/")
               }}
             >
-              {isLogin ? "Create an account?" : "Already have an account?"}
-            </a>
-            <a
-              href="#"
-              className="block text-accent hover:underline"
-              onClick={e => {
-                e.preventDefault()
-                push("/resend-verification")
-              }}
-            >
-              Resend verification email?
+              {`<-- Back to login ?`}
             </a>
           </div>
         </div>
