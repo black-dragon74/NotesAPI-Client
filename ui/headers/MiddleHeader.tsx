@@ -1,4 +1,5 @@
 import useScreenType, { ScreenType } from "../../hooks/useScreenType"
+import { NAME } from "../../lib/constants"
 import LeftHeader from "./LeftHeader"
 import RightHeader from "./RightHeader"
 
@@ -14,7 +15,7 @@ const MiddleHeader = () => {
       )}
 
       <div className="flex text-primary-100 text-bold p-2 w-full items-center justify-center">
-        <h2 className="text-xl block text-center">Welcome to Arché Notes</h2>
+        <h2 className="text-xl block text-center">Welcome to {NAME}</h2>
       </div>
 
       {(screenType === ScreenType.OneCol ||

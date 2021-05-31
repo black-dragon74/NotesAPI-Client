@@ -1,11 +1,18 @@
 import { FC } from "react"
 import Head from "next/head"
+import { NAME } from "../../lib/constants"
 
 type HeaderControllerProps = {
   title?: string
   description?: string
   additionalKeywords?: string[]
   owner?: string
+}
+
+const getTitle = (title?: string) => {
+  const prepend = title ? `${title} | ` : ""
+
+  return prepend + NAME
 }
 
 const HeaderController: FC<HeaderControllerProps> = ({
@@ -16,7 +23,7 @@ const HeaderController: FC<HeaderControllerProps> = ({
 }) => {
   return (
     <Head>
-      {title ? <title>{title} | ArchéNotes</title> : <title>ArchéNotes</title>}
+      <title>{getTitle(title)}</title>
       <meta name="description" content={description} />
       {owner ? <meta name="author" content={owner} /> : ""}
       <meta
