@@ -9,6 +9,8 @@ import InputField from "../../components/form-fields/InputField"
 import { Formik } from "formik"
 import { showErrorToast, showSuccessToast } from "../../lib/showToast"
 import { handleLogin, handleSignup } from "../../lib/passport"
+import { API_URL } from "../../lib/constants"
+import Toast from "../../ui/Toast"
 
 type LoginFormFields = {
   email: string
@@ -21,12 +23,31 @@ export const LoginPage = () => {
   )
   const { push, replace } = useRouter()
   const [isLogin, setIsLogin] = useState(true)
+  const [isReachable, setIsReachable] = useState(false)
 
   useEffect(() => {
     if (hasTokens) {
       push("/dash")
     }
   }, [hasTokens, push])
+
+  useEffect(() => {
+    if (isReachable) return
+
+    const ticker = setInterval(async () => {
+      console.log("tick")
+
+      try {
+        const resp = await fetch(API_URL)
+
+        if (resp.status === 404) setIsReachable(true)
+      } catch {}
+    }, 500)
+
+    return () => {
+      if (ticker) clearInterval(ticker)
+    }
+  }, [isReachable])
 
   return (
     <>
@@ -122,15 +143,17 @@ export const LoginPage = () => {
                 <InputField
                   type="email"
                   name="email"
+                  disabled={!isReachable}
                   placeholder="Enter your email"
                 />
                 <InputField
                   name="password"
                   type="password"
+                  disabled={!isReachable}
                   placeholder="Enter your password"
                 />
                 <Button
-                  loading={isSubmitting}
+                  loading={isSubmitting || !isReachable}
                   type="submit"
                   color={isLogin ? "primary" : "accent-secondary"}
                 >
@@ -181,6 +204,15 @@ export const LoginPage = () => {
           </div>
         </div>
       </div>
+      {!isReachable && (
+        <div className="absolute bottom-2 left-0 right-0">
+          <Toast
+            message="API unreachable, all functions suspended."
+            duration="sticky"
+            type="error"
+          />
+        </div>
+      )}
     </>
   )
 }
