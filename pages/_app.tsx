@@ -31,6 +31,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           name="viewport"
           content="width=device-width, initial-scale=1, user-scalable=no, user-scalable=0"
         />
+        <link rel="shortcut-icon" href="/favicon.ico" />
       </Head>
       <Component {...pageProps} />
       <ToastController />

@@ -18,7 +18,7 @@ const getTitle = (title?: string) => {
 const HeaderController: FC<HeaderControllerProps> = ({
   title,
   description = "Secure Notes API client",
-  additionalKeywords,
+  additionalKeywords = [],
   owner,
 }) => {
   return (
