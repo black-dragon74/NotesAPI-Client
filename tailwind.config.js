@@ -6,6 +6,7 @@ module.exports = {
       "./ui/**/*.tsx",
       "./public/index.html",
       "./pages/**/*.tsx",
+      "./pages/*.tsx",
     ],
   },
   theme: {
